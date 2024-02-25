@@ -1,0 +1,49 @@
+spring:
+  batch:
+    chunk:
+      size: 1000
+    job:
+      enabled: true
+  kafka:
+    producer:
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.apache.kafka.common.serialization.StringSerializer
+    template:
+      default-topic: user-access
+    bootstrap-servers: localhost:9092
+opensearch:
+  server: localhost
+  port: 9200
+  hostname: https
+  usename: admin
+  password: admin
+  index: user-access
+  timefield: accessTime
+  ssl:
+    ignore: true
+    path: /exam.pem
+
+---
+spring:
+  batch:
+    chunk:
+      size: ${SPRING_BATCH_CHUNK_SIZE}
+  config:
+    activate:
+      on-profile: prod
+  kafka:
+    template:
+      default-topic: ${KAFKA_TEMPLATE_DEFAULT_TOPIC}
+    bootstrap-servers: ${KAFKA_BOOTSTRAP_SERVERS}
+opensearch:
+  server: ${OPENSERCH_SERVER}
+  port: ${OPENSEARCH_PORT}
+  hostname: ${OPENSEARCH_HOSTNAME}
+  usename: ${OPENSEARCH_USERNAME}
+  password: ${OPENSEARCH_PASSWORD}
+  index: ${OPENSEARCH_INDEX}
+  timefield: ${OPENSEARCH_TIMEFIELD}
+  ssl:
+    ignore: ${OPENSEARCH_SSL_IGNORE}
+    path: ${OPENASEARCH_SSL_PATH}
+
